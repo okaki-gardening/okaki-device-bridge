@@ -24,6 +24,17 @@ POST `/measurements` expects a JSON String with a deviceID and a List of Measure
 }
 ```
 
+# .env file
+
+You need to create an .env file in the okaki-device-bridge subfolder with the following content:
+
+```
+OKAKI_DBNAME=testing
+OKAKI_APIKEY=YOURAPPWRITEAPIKEY
+OKAKI_PROJECT_ID=644bbba076344291f17d
+OKAKI_ENDPOINT=https://appwrite.okaki.org/v1
+```
+
 # Running with the Dart SDK
 
 You can run the service with the [Dart SDK](https://dart.dev/get-dart)
@@ -41,10 +52,14 @@ can build and run with the `docker` command:
 
 ```bash
 $ docker build . -t okaki-device-bridge
-$ docker run -it -p 8080:8080 okaki-device-bridge
+$ docker run -it --rm -p 8080:8080 --env-file .env --name odbridge okaki-device-bridge
 Server listening on port 8080
 ```
 
+You can stop the Service by killing the docker container:
+```bash
+docker kill odbridge   
+```
 
 ## Credits
 
