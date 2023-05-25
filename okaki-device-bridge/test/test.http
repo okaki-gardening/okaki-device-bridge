@@ -1,24 +1,37 @@
 ### ROOT
-GET http://localhost:8080/
+GET http://localhost:8079/
 
 
 ### publish measurement
-POST http://localhost:8080/measurements
+POST http://localhost:8079/measurements
 content-type: application/json
 
 {"deviceID":"device1", "key":"my-secret", "measurements":[{"sensorID":"sensor1","sensorTypeID":"float","value":"12.34"},{"sensorID":"sensor1","sensorTypeID":"float","value":"56.78"}]}
 
 
 ### publish with wrong syntax
-POST http://localhost:8080/measurements
+POST http://localhost:8079/measurements
 content-type: application/json
 
 {"deviceID":"device1", "measurements":[{"sensorID":"sensor1","sensorTypeID":"float","value":"12.34"},{"sensorID":"sensor1","sensorTypeID":"float","value":"56.78"}]}
 
 
 ### publish with WRONG credentials
-POST http://localhost:8080/measurements
+POST http://localhost:8079/measurements
 content-type: application/json
 
 {"deviceID":"device1", "key":"WRONG!!!" "measurements":[{"sensorID":"sensor1","sensorTypeID":"float","value":"12.34"},{"sensorID":"sensor1","sensorTypeID":"float","value":"56.78"}]}
 
+
+### publish measurement TO OKAKI
+POST https://appwrite.okaki.org:8079/measurements
+content-type: application/json
+
+{"deviceID":"device1", "key":"my-secret", "measurements":[{"sensorID":"sensor1","sensorTypeID":"float","value":"12.34"},{"sensorID":"sensor1","sensorTypeID":"float","value":"56.78"}]}
+
+
+### publish with wrong syntax TO OKAKI
+POST https://appwrite.okaki.org:8079/measurements
+content-type: application/json
+
+{"deviceID":"device1", "measurements":[{"sensorID":"sensor1","sensorTypeID":"float","value":"12.34"},{"sensorID":"sensor1","sensorTypeID":"float","value":"56.78"}]}

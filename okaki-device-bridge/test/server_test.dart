@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final port = '8080';
+  final port = '8079';
   final host = 'http://127.0.0.1:$port';
   late Process p;
 
