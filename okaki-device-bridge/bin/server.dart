@@ -65,6 +65,18 @@ Future<Response> _measurementsHandler(Request req) async {
   return Response.ok('$numberOfMessagesAdded measurements added.');
 }
 
+SecurityContext getSecurityContext() {
+  // Bind with a secure HTTPS connection
+  final chain =
+      Platform.script.resolve('certificates/server_chain.pem').toFilePath();
+  final key =
+      Platform.script.resolve('certificates/server_key.pem').toFilePath();
+
+  return SecurityContext()
+    ..useCertificateChain(chain)
+    ..usePrivateKey(key);
+}
+
 void main(List<String> args) async {
   var env = DotEnv(includePlatformEnvironment: true)..load();
 
@@ -96,6 +108,12 @@ void main(List<String> args) async {
 
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(Platform.environment['PORT'] ?? '8079');
-  final server = await serve(handler, ip, port);
+
+  //HTTP
+  //final server = await serve(handler, ip, port);
+
+  //HTTPS
+  final server =
+      await serve(handler, ip, port, securityContext: getSecurityContext());
   print('Server listening on port ${server.port}');
 }
