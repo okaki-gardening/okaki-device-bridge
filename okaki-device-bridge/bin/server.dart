@@ -1,11 +1,12 @@
 import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:dart_appwrite/dart_appwrite.dart' as appwrite;
+import 'package:dart_appwrite/models.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
-
 import 'measurement_model.dart';
 import 'message_model.dart';
 
@@ -27,25 +28,41 @@ Future<Response> _rootHandler(Request req) async {
 
 Future<Response> _measurementsHandler(Request req) async {
   final body = await req.readAsString();
+  int numberOfMessagesAdded = 0;
 
   try {
     final jsonBody = jsonDecode(body);
-    MeasurementMessage m = MeasurementMessage.fromMap(jsonBody);
-    print(m.deviceID);
-    for (Measurement measurement in m.measurements) {
+    MeasurementMessage msg = MeasurementMessage.fromMap(jsonBody);
+
+    List<String> queries = [
+      appwrite.Query.equal('\$id', msg.deviceID).toString(),
+      appwrite.Query.equal('key', msg.key).toString()
+    ];
+
+    DocumentList devicesList = await databases.listDocuments(
+        databaseId: dbName!, collectionId: 'devices', queries: queries);
+
+    if (devicesList.documents.isEmpty) {
+      return Response.internalServerError(body: 'unknown device!');
+    }
+
+    for (Measurement measurement in msg.measurements) {
       await databases.createDocument(
           databaseId: dbName!,
           collectionId: 'measurements',
           documentId: appwrite.ID.unique(),
           data: measurement.toMap());
+      numberOfMessagesAdded++;
     }
   } catch (e, s) {
     print(e);
     print(s);
-    Response.internalServerError(body: 'error while trying to add measurement');
+    return Response.internalServerError(
+        body: 'error while trying to add measurement. Check Syntax!');
   }
 
-  return Response.ok(body, headers: {'content-type': 'application/json'});
+  return Response.ok('$numberOfMessagesAdded measurements added.',
+      headers: {'content-type': 'application/json'});
 }
 
 void main(List<String> args) async {
