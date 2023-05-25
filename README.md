@@ -38,6 +38,28 @@ OKAKI_PROJECT_ID=644bbba076344291f17d
 OKAKI_ENDPOINT=https://appwrite.okaki.org/v1
 ```
 
+# HTTP support
+
+by default, HTTPS is used. If you need to use HTTP, please check the last eight lines of server.dart and modify the file to your needs.
+
+# HTTPS support
+
+If you run the okaki device bridge on the same domain as your appwrite installation, we can reuse appwrite's certificates. If you don't use the same domain, please provide your own certificates!
+
+Let's say, our local linux user is called ubuntu... 
+we need to copy the Let's Encrypt certificates that appwrite created for its services to our bin/certificates directory.
+
+```bash
+sudo su
+cd /var/lib/docker/volumes/appwrite_appwrite-certificates/_data
+cd <YOUR_DOMAIN_NAME e.g. appwrite.okaki.org>
+cp fullchain.pem /home/ubuntu/okaki-device-bridge/okaki-device-bridge/bin/certificates/server_chain.pem
+cp privkey.pem /home/ubuntu/okaki-device-bridge/okaki-device-bridge/bin/certificates/server_key.pem
+chown ubuntu /home/ubuntu/okaki-device-bridge/okaki-device-bridge/bin/certificates/server_chain.pem
+chown ubuntu /home/ubuntu/okaki-device-bridge/okaki-device-bridge/bin/certificates/server_key.pem
+exit
+```
+
 # Running with the Dart SDK
 
 You can run the service with the [Dart SDK](https://dart.dev/get-dart)
