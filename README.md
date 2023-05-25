@@ -70,6 +70,36 @@ $ dart run bin/server.dart
 Server listening on port 8080
 ```
 
+# Running as a Linux Service
+
+This is the current solution for okaki.org:
+
+Generate a new file called
+`/etc/systemd/system/odbridge.service`:
+
+```bash
+[Unit]
+Description=okaki device bridge
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/okaki-device-bridge/okaki-device-bridge/bin/
+ExecStart=/home/ubuntu/dart-sdk/bin/dart server.dart
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and run the new service:
+
+```bash
+sudo systemctl enable odbridge
+sudo systemctl daemon-reload
+sudo service odbridge start
+```
+
+
 ## Running with Docker
 
 If you have [Docker](https://www.docker.com/get-started) installed, you
