@@ -11,11 +11,14 @@ cd okaki-device-bridge
 
 # Endpoints
 
-POST `/measurements` expects a JSON String with a deviceID and a List of Measurement objects. Example:
+POST `/measurements` expects a JSON String with a deviceID and a List of Measurement objects. See messsage_model.dart!
+
+Example:
 
 ```json
 {
-    "deviceID":"998877",
+    "deviceID":"device1",
+    "key":"my-secret",
     "measurements":
     [
         {"sensorID":"sensor1","sensorTypeID":"float","value":"12.34"},

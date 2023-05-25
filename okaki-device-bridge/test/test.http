@@ -6,4 +6,4 @@ GET http://localhost:8080/
 POST http://localhost:8080/measurements
 content-type: application/json
 
-{"deviceID":"998877","measurements":[{"sensorID":"sensor1","sensorTypeID":"float","value":"12.34"},{"sensorID":"sensor1","sensorTypeID":"float","value":"56.78"}]}
+{"deviceID":"device1", "key":"my-secret", "measurements":[{"sensorID":"sensor1","sensorTypeID":"float","value":"12.34"},{"sensorID":"sensor1","sensorTypeID":"float","value":"56.78"}]}
