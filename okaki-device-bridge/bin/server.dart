@@ -61,8 +61,8 @@ Future<Response> _measurementsHandler(Request req) async {
         body: 'error while trying to add measurement. Check Syntax!');
   }
 
-  return Response.ok('$numberOfMessagesAdded measurements added.',
-      headers: {'content-type': 'application/json'});
+  //return Response.ok('$numberOfMessagesAdded measurements added.', headers: {'content-type': 'application/json'});
+  return Response.ok('$numberOfMessagesAdded measurements added.');
 }
 
 void main(List<String> args) async {
